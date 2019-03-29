@@ -1,0 +1,64 @@
+MESSAGE TYPES HANDLING BY SERVER
+
+Server accepts all requests from a client that has right syntax.
+
+TimeRequest (get time from server):
+WT={}
+
+Registration (create new user):
+REG={username,nickname,password}
+
+Authorization (authorize user):
+AUTH={username,password}
+
+Inclusion (add some user to contact list):
+INCL={username}
+
+Exclusion (delete some user to contact list):
+EXCL={username}
+
+Message (send message from one user to another):
+MSG={reciever,message,message_kind}
+Message kind must be 'SPL' (simple message) or 'AANSW' (autoanswer)
+
+Password Changing (change user's password):
+PWD={username, old_password, new_password}
+  
+Display Name Changing (change user's nickname):
+NICK={username, password, new_nickname}
+
+
+MESSAGE TYPES HANDLING BY CLIENT
+
+After sending any requests to server, client is waiting for acknowledgement (good result) or error (bad result) for them (number is equal for request current number).
+
+Acknowledgement (requests succesfully processed by server):
+ACK={number}
+
+Error (some problem occured, such as bad password etc):
+ERR={number,errcode}
+
+When client has been authorized, first of all the server sends greeting message for it, which containt user's nickname.
+
+Greeting (hello user, this is your parameters):
+HELLO={username,nickname}
+
+After that, server sends connection state for each user in client's contact list.
+
+Connection (note about some user is online):
+CONNECT={username,nickname}
+
+Disconnection (note about some user is offline):
+DISCONNECT={username,nickname}
+
+When another user sends for this user a text message, the server is directing it for the client.
+
+Message (from another user):
+MSG={sender,message,message_kind}
+Message kind must be 'SPL' (simple message) or 'AANSW' (autoanswer)
+
+In any time client can ask about time on the server, after that server will send timestamp answer.
+
+Timestamp (indicates time on the server):
+TS={timestamp}
+Timestamp has yyyymmddhhnnss format (4 digit year, 2 digit month, 2 digit day, 2 digit hour, 2 digit minute, 2 digit second)
